@@ -1,7 +1,7 @@
 # My C# home Work
 1. Color 
 
-   add `Console.reSetColor()`
+   add `Console.ResetColor()`
 
    ![Color](pic/Color.png)
 
