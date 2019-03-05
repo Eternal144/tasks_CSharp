@@ -6,11 +6,11 @@ namespace hello
     {
         public void Greet()
         {
-            Console.WriteLine("Hello World!");
+            Console.WriteLine("Hello World! from a object ");
         }
         public static void Greet_static()
         {
-            Console.WriteLine("Hello World!");
+            Console.WriteLine("Hello World! from a class ");
         }
     }
     class Execute
