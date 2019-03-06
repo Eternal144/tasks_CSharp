@@ -25,5 +25,13 @@
 
      ![form1](pic/form1.png)
 
-![form2](pic/form2.png)
+     ![form2](pic/form2.png)
+
+   * 新建android空白应用，在设计器里面加入一个Text和一个Button，还没有学会如何监听button
+
+     ![android](pic/android.png)
+
+
+
+
 
