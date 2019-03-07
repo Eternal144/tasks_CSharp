@@ -9,7 +9,7 @@
 
 2. Hello 
 
-   * 新建.NET Framework创建一个类，并给这个类写一个打印`Hello World！`的方法，最后实例化这个类。获取命令行输入并打印前两个字符串
+   * 新建.NET Framework 创建一个类，并给这个类写一个打印`Hello World！`的方法，最后实例化这个类。获取命令行输入并打印前两个字符串
 
      ![hello12](pic/hello12.png)
 
