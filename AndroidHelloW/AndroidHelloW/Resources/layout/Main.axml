@@ -12,7 +12,7 @@
         android:minHeight="100dp"
         android:layout_marginRight="0.0dp" />
     <Button
-        android:text="Button"
+        android:text="点击获取章老师，考试再也不用怕"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/button1"

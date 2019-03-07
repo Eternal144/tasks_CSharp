@@ -5,12 +5,12 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{BF6A8517-AE7D-45E6-8444-A9A5FF0EC718}</ProjectGuid>
+    <ProjectGuid>{D94F6987-8D51-4246-89E0-0BFB393C8BA6}</ProjectGuid>
     <ProjectTypeGuids>{EFBA0AD7-5A72-4C68-AF49-83D382785DCF};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>AndroidHello</RootNamespace>
-    <AssemblyName>AndroidHello</AssemblyName>
+    <RootNamespace>AndroidHelloW</RootNamespace>
+    <AssemblyName>AndroidHelloW</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <AndroidApplication>True</AndroidApplication>
     <AndroidResgenFile>Resources\Resource.Designer.cs</AndroidResgenFile>

@@ -48,5 +48,10 @@ namespace Hello
         {
             public string Input { get; set; }
         }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("今天好");
+        }
     }
 }

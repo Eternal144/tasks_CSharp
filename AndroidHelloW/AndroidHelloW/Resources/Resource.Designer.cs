@@ -9,9 +9,9 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-[assembly: global::Android.Runtime.ResourceDesignerAttribute("AndroidHello.Resource", IsApplication=true)]
+[assembly: global::Android.Runtime.ResourceDesignerAttribute("AndroidHelloW.Resource", IsApplication=true)]
 
-namespace AndroidHello
+namespace AndroidHelloW
 {
 	
 	
