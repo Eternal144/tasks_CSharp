@@ -1,0 +1,4 @@
+﻿这是一个严肃的字符串。
+This is a strict string.
+aaaaaaaaaaaa
+123456789

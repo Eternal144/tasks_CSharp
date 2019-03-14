@@ -45,6 +45,11 @@ namespace QrCodeTest
         //生成图片并新建文件夹，保存至文件夹内。
         // 1-> 001
         // 1923->192
+        /// <summary>
+        /// 根据行号生成对应的三位长度
+        /// </summary>
+        /// <param name="s"></param>
+        /// <returns></returns>
         public static string getString(int s) {
             if (s <= 0) return null;
             string str = s.ToString(); 
@@ -65,6 +70,11 @@ namespace QrCodeTest
             }
             return str;
         }
+        /// <summary>
+        /// 截取内容的前四个字符
+        /// </summary>
+        /// <param name="con"></param>
+        /// <returns></returns>
         //截取前面的四位字符
         public static string GetContSplit(string con)
         {
@@ -75,19 +85,19 @@ namespace QrCodeTest
             return con.Substring(0, 4);
         }
 
+
         private void SaveCodeFile(string content, int col_n,string path)
         {
-            //在目标文件夹创建一个空的.bmp文件
-            string filename =path +"/"+ Program.getString(col_n) + Program.GetContSplit(content) + ".bmp";
-            
+
             QrEncoder qrEncoder = new QrEncoder(ErrorCorrectionLevel.H);
             QrCode code = new QrCode();
             qrEncoder.TryEncode(content, out code);
             const int modelSizeInPixels = 4;
-
             GraphicsRenderer render = new GraphicsRenderer(new FixedModuleSize(modelSizeInPixels, QuietZoneModules.Two)
                 , Brushes.Black, Brushes.White);
-   
+
+            //在目标文件夹创建一个空的.bmp文件
+            string filename = path + "/" + Program.getString(col_n) + Program.GetContSplit(content) + ".bmp";
             using (FileStream fs = new FileStream(filename, FileMode.OpenOrCreate, FileAccess.ReadWrite))
             {
                 render.WriteToStream(code.Matrix, ImageFormat.Png, fs);
@@ -98,7 +108,7 @@ namespace QrCodeTest
         {
             //content被修改。
             QrEncoder qrEncoder = new QrEncoder(ErrorCorrectionLevel.M);
-            QrCode qrCode = qrEncoder.Encode("content");
+            QrCode qrCode = qrEncoder.Encode(content);
 
             for (int j = 0; j < qrCode.Matrix.Width; j++)
             {
@@ -115,7 +125,6 @@ namespace QrCodeTest
         static void Main(string[] args)
         {
             Program obj = new Program();
-            Console.WriteLine(args.Length);
             //判断是否有命令行参数输入
             if (args.Length  == 1)
             {
@@ -143,8 +152,8 @@ namespace QrCodeTest
                     {
                         Console.WriteLine("正在生成文件。");
                         string strReadLine = srReadFile.ReadLine(); //读取每行数据
-
                         Console.WriteLine(strReadLine);
+                        
                         obj.SaveCodeFile(strReadLine, i, path);
                         i++;
                     }
@@ -158,6 +167,7 @@ namespace QrCodeTest
                         string strReadLine = srReadFile.ReadLine(); //读取每行数据
                         Console.WriteLine("这是第" + i + "行信息生成的二维码");
                         obj.GetQrCodePrint(strReadLine);
+                        Console.WriteLine();
                         i++;
                     }
 
