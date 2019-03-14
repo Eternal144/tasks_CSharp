@@ -125,20 +125,25 @@ namespace QrCodeTest
         {
             Program obj = new Program();
             //判断是否有命令行参数输入
-            if (args.Length  == 1)
+            Console.WriteLine(args.Length);
+            if (args.Length  > 0)
             {
                 //强制用户用""来输入文件地址。
-                string target = args[0].StartsWith("-f") ? args[0].Substring(2) : args[0];
-
-                if(!target.StartsWith("\"") || !target.EndsWith("\""))
+                string target = "";
+                if (args.Length > 1)
                 {
-                    Console.WriteLine("Input path with \"\"");
-                    return;
+                    foreach(string x in args)
+                    {
+                        target += " " + x;
+                    }
                 }
+                Console.WriteLine(target);
+                target = target.StartsWith(" -f") ? target.Substring(3) : target;
+                
                 if (!File.Exists(target))
                 {
                     Console.WriteLine("Invalid path");
-                    return;
+                    //return;
                 }
                 //Encoding encoding = Program.GetFileEncodeType(target);
                 StreamReader srReadFile = new StreamReader(target,Encoding.UTF8);
