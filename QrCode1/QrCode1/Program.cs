@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Drawing;
 using System.Drawing.Imaging;
-using System.Threading.Tasks;
 using Gma.QrCodeNet.Encoding;
 using System.IO;
 using Gma.QrCodeNet.Encoding.Windows.Render;
@@ -128,7 +127,19 @@ namespace QrCodeTest
             //判断是否有命令行参数输入
             if (args.Length  == 1)
             {
+                //强制用户用""来输入文件地址。
                 string target = args[0].StartsWith("-f") ? args[0].Substring(2) : args[0];
+
+                if(!target.StartsWith("\"") || !target.EndsWith("\""))
+                {
+                    Console.WriteLine("Input path with \"\"");
+                    return;
+                }
+                if (!File.Exists(target))
+                {
+                    Console.WriteLine("Invalid path");
+                    return;
+                }
                 //Encoding encoding = Program.GetFileEncodeType(target);
                 StreamReader srReadFile = new StreamReader(target,Encoding.UTF8);
 
@@ -153,7 +164,6 @@ namespace QrCodeTest
                         Console.WriteLine("正在生成文件。");
                         string strReadLine = srReadFile.ReadLine(); //读取每行数据
                         Console.WriteLine(strReadLine);
-                        
                         obj.SaveCodeFile(strReadLine, i, path);
                         i++;
                     }
@@ -175,7 +185,7 @@ namespace QrCodeTest
             }
             else
             {
-                Console.Write(@"Type some text to QR code: ");
+                Console.Write("Type some text to QR code: ");
                 string text = Console.ReadLine();
                 while (text.Length > 20)
                 {
