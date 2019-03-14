@@ -130,14 +130,10 @@ namespace QrCodeTest
             {
                 //强制用户用""来输入文件地址。
                 string target = "";
-                if (args.Length > 1)
+                foreach (string x in args)
                 {
-                    foreach(string x in args)
-                    {
-                        target += " " + x;
-                    }
+                    target += " " + x;
                 }
-                Console.WriteLine(target);
                 target = target.StartsWith(" -f") ? target.Substring(3) : target;
                 
                 if (!File.Exists(target))
