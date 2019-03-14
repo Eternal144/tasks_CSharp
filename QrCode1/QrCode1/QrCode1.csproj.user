@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
+    <StartArguments>D:\C#\WPF\QrCode1\QrCode1\bin\Debug\QrCode1.exe -fD:\C#\WPF\QrCode1\QrCode1\abc.txt</StartArguments>
+  </PropertyGroup>
+</Project>

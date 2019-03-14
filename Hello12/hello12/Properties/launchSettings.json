@@ -1,8 +1,0 @@
-{
-  "profiles": {
-    "hello12": {
-      "commandName": "Project",
-      "commandLineArgs": "i am paras"
-    }
-  }
-}
