@@ -11,4 +11,4 @@
 
 #### 三：项目截图
 
-![tipC](/Users/sisilee/Documents/大二下/C#/代码/tasks_CSharp/TipCalculator/pic/tipC.jpg)
+![tipC](pic/tipC.jpg)
