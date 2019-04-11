@@ -221,7 +221,6 @@ namespace SequencerDemo
             this.StateController.Name = "StateController";
             this.StateController.Size = new System.Drawing.Size(32, 32);
             this.StateController.TabIndex = 7;
-            this.StateController.SizeChanged += new System.EventHandler(this.StateController_SizeChanged);
             this.StateController.Click += new System.EventHandler(this.panel2_Click);
             // 
             // repeatButton
@@ -299,7 +298,8 @@ namespace SequencerDemo
             this.PlayingBox.Name = "PlayingBox";
             this.PlayingBox.Size = new System.Drawing.Size(221, 88);
             this.PlayingBox.TabIndex = 17;
-            this.PlayingBox.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.PlayingBox_DrawItem);
+            this.PlayingBox.SelectedIndexChanged += new System.EventHandler(this.PlayingBox_SelectedIndexChanged);
+            this.PlayingBox.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.PlayingBox_MouseDoubleClick);
             // 
             // Form1
             // 

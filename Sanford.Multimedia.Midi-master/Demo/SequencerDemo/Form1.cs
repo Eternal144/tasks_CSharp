@@ -158,6 +158,7 @@ namespace SequencerDemo
             if(openMidiFileDialog.ShowDialog() == DialogResult.OK)
             {
                 string fileName = openMidiFileDialog.FileName;
+                
                 Open(fileName);
                 if (!playingList.Contains(fileName)){
                     this.playingList.Add(fileName);
@@ -170,7 +171,6 @@ namespace SequencerDemo
         {
             try
             {
-
                 sequencer1.Stop();
                 playing = false;
                 sequence1.LoadAsync(fileName);
@@ -444,7 +444,9 @@ namespace SequencerDemo
 
         private void Form1_Load(object sender, EventArgs e)
         {
-           
+            string str = System.Diagnostics.Process.GetCurrentProcess().MainModule.FileName;
+            MessageBox.Show(str);
+
             this.BackgroundImage = Image.FromFile("pic\\simple1.jpg");
             this.StateController.BackgroundImage = Image.FromFile("pic\\stop.png");
             this.orderButton.Checked = true;
@@ -456,25 +458,19 @@ namespace SequencerDemo
             this.PlayingBox.Items.Add(s);
         }
 
-        private void PlayingBox_DrawItem(object sender, DrawItemEventArgs e)
+        private void PlayingBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (e.Index >= 0)
-            {
-                this.index = e.Index;
-                e.DrawBackground();
-                Brush mybsh = Brushes.Black;
-                // 判断是什么类型的标签
-                mybsh = Brushes.Yellow;
-                // 焦点框
-                e.DrawFocusRectangle();
-                //文本 
-                e.Graphics.DrawString(PlayingBox.Items[e.Index].ToString(), e.Font, mybsh, e.Bounds, StringFormat.GenericDefault);
-            }
+            
+            
         }
 
-        private void StateController_SizeChanged(object sender, EventArgs e)
+        private void PlayingBox_MouseDoubleClick(object sender, MouseEventArgs e)
         {
-            this.StateController.BackgroundImage = Image.FromFile("pic\\stop.png");
+            int index = PlayingBox.IndexFromPoint(e.X, e.Y);
+            PlayingBox.SelectedIndex = index;
+            this.Stop();
+            this.index = index;
+            this.Open(this.playingList[this.index]);
         }
     }
 }
