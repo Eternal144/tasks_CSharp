@@ -40,7 +40,7 @@
 
 #### 三、代码总量
 
-![image-20190412133132891](/Users/sisilee/Library/Application Support/typora-user-images/image-20190412133132891.png)
+![image-20190412133132891](pic/code.png)
 
 #### 四、工作时间
 
@@ -48,7 +48,7 @@
 
 #### 五、知识点总结图
 
-![Knowledge](/Users/sisilee/Documents/大二下/C#/代码/tasks_CSharp/pic/Knowledge.png)
+![Knowledge](pic/Knowledge.png)
 
 #### 六、结论
 
