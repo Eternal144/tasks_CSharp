@@ -215,7 +215,7 @@ namespace SequencerDemo
             // 
             this.StateController.BackColor = System.Drawing.Color.Transparent;
             this.StateController.BackgroundImage = global::SequencerDemo.Properties.Resources.play4;
-            this.StateController.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            this.StateController.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.StateController.Cursor = System.Windows.Forms.Cursors.Hand;
             this.StateController.Location = new System.Drawing.Point(296, 352);
             this.StateController.Name = "StateController";

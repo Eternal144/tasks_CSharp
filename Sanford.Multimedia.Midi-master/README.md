@@ -1,25 +1,56 @@
-Sanford.Multimedia.Midi
-=======================
+### <<Windows Form实现MIDI音乐文件的播放APP>> 实验报告
 
-This is all source code of the C# MIDI toolkit from CodeProject by Leslie Sanford.
+学院: 软件学院   班级: 1班   学号: 3017218059   姓名: 李思思
 
-Improvements:
-- 64-bit compatible
-- Windows 8 and 10 compatible
-- Mono framework compatible on Windows
-- Does not require additional assemblies
-- Faster midi file reading in Release build
+日期 ：2019年4月4日
 
-Also avaliable on Nuget.org
+#### 一、功能概述
 
-    PM> Install-Package Sanford.Multimedia.Midi
+该项目引用了`Sanford.Multimedia.Midi`这个midi文件播放库，对该项目进行了自适应处理，并对其功能做了一点的扩展，如添加了播放模式和播放列表，并将功能按钮进行了合并
 
-If you have any improvement or fix to this library, please don't hesitate to make a fork and open a pull request.
+#### 二、项目特色
 
-MIT License
+1. 实现控件的自适应
 
-Credits:
+   通过记录空间的位置，窗口的缩放比例和递归控件，实现空间随着窗口的缩放而缩放
 
-http://www.codeproject.com/Articles/6228/C-MIDI-Toolkit
+2. 自由设置背景
 
-https://code.google.com/p/vsticks/
+   用户可自由上传图片作为程序的背景
+
+3. 选择播放模式
+
+   有三种播放模式可供选择，包括：
+
+   * repeat：循环播放
+   * order：顺序播放
+   * random：随机播放
+
+4. 操作播放列表
+
+   * 添加
+   * 当前播放位置高亮
+   * 点击播放
+
+5. 功能按钮的合并
+
+   * play
+   * stop
+   * loaded
+
+#### 三、代码总量
+
+![image-20190412133132891](/Users/sisilee/Library/Application Support/typora-user-images/image-20190412133132891.png)
+
+#### 四、工作时间
+
+6小时
+
+#### 五、知识点总结图
+
+![Knowledge](/Users/sisilee/Documents/大二下/C#/代码/tasks_CSharp/pic/Knowledge.png)
+
+#### 六、结论
+
+通过记录空间的位置，窗口的缩放比例和递归控件，能够很好的实现控件的自适应。该midi库提供了充足的回调方法用来扩展功能，但是对于线程这部分处理得不是很完美，因此可能会存在一些线程冲突的问题，这方面的知识需要多多学习。
+
