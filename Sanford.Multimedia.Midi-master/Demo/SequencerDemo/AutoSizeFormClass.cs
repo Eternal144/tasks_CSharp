@@ -72,7 +72,7 @@ namespace SequencerDemo
             foreach (Control c in ctl.Controls)
             { //**放在这里，是先缩放控件的子控件，后缩放控件本身
               //if (c.Controls.Count > 0)
-              //   AutoScaleControl(c, wScale, hScale);//窗体内其余控件还可能嵌套控件(比如panel),要单独抽出,因为要递归调用
+                //AutoScaleControl(c, wScale, hScale);//窗体内其余控件还可能嵌套控件(比如panel),要单独抽出,因为要递归调用
                 ctrLeft0 = oldCtrl[ctrlNo].Left;
                 ctrTop0 = oldCtrl[ctrlNo].Top;
                 ctrWidth0 = oldCtrl[ctrlNo].Width;

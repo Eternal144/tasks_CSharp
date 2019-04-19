@@ -298,7 +298,6 @@ namespace SequencerDemo
             this.PlayingBox.Name = "PlayingBox";
             this.PlayingBox.Size = new System.Drawing.Size(221, 88);
             this.PlayingBox.TabIndex = 17;
-            this.PlayingBox.SelectedIndexChanged += new System.EventHandler(this.PlayingBox_SelectedIndexChanged);
             this.PlayingBox.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.PlayingBox_MouseDoubleClick);
             // 
             // Form1
