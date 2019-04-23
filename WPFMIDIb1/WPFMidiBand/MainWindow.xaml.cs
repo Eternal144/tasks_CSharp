@@ -20,6 +20,7 @@ using System.Windows.Media.Animation;
 using System.Windows.Threading;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
+using System.Threading.Tasks;
 
 namespace WPFMidiBand
 {
@@ -85,6 +86,10 @@ namespace WPFMidiBand
                     bi.UriSource = new Uri(@"pack://siteoforigin:,,,/Resources/stop.png", UriKind.RelativeOrAbsolute);
                     bi.EndInit();
                     playIcon.Source = bi;
+                    if (Status == PlayStatus.Playing) return;
+
+                    this.Start();
+                    /*
                     //if (Staus == PlayStatus.Loaded)
                     if (Status == PlayStatus.Playing)
                     {
@@ -94,7 +99,7 @@ namespace WPFMidiBand
                     else if (Status == PlayStatus.Paused)
                     {
                         this.Continue();
-                    }
+                    }*/
                 }
                 status = value;
             }
@@ -223,6 +228,8 @@ namespace WPFMidiBand
             this.Title = string.Format("WPF Midi Band - {0}", new FileInfo(fileName).Name);
             ClearInstruments();
 
+            Status = PlayStatus.Playing;
+
             this.Dispatcher.Invoke(
                 System.Windows.Threading.DispatcherPriority.Normal,
                     new Action(
@@ -235,17 +242,18 @@ namespace WPFMidiBand
             );
 
             this.Dispatcher.Invoke(
-    System.Windows.Threading.DispatcherPriority.Normal,
-        new Action(
-        delegate()
-        {
-            status = PlayStatus.Playing;
-            this.Cursor = System.Windows.Input.Cursors.Arrow;
-            btnOpen.IsEnabled = true;
-            slider1.Value = 0;
-        }
-    )
-);
+                System.Windows.Threading.DispatcherPriority.Normal,
+                    new Action(
+                    delegate()
+                    {
+                        this.Cursor = System.Windows.Input.Cursors.Arrow;
+                        btnOpen.IsEnabled = true;
+                        slider1.Value = 0;
+                    }
+                )
+            );
+            
+
             slider1.Value = 0;
             slider1.Maximum = sequence1.GetLength();
         }
@@ -414,6 +422,7 @@ namespace WPFMidiBand
                     }
                 }
             }
+            Status = PlayStatus.Paused;
             if (playingList.Count == 0)
             {
                 return;
@@ -429,12 +438,7 @@ namespace WPFMidiBand
                 case PlayMode.Repeat:
                     break;
             }
-            this.BeginInvoke((Action<string>)open, this.playingList[index]);
-        }
-
-        private void BeginInvoke(Action<string> open, string v)
-        {
-            throw new NotImplementedException();
+            this.Dispatcher.Invoke((Action<string>)open, this.playingList[index]);
         }
 
         private void pianoControl1_PianoKeyDown(object sender, PianoKeyEventArgs e)
@@ -485,18 +489,10 @@ namespace WPFMidiBand
                 }
                 try
                 {
-                    open(fileName);
-                    this.Dispatcher.Invoke(
-                        System.Windows.Threading.DispatcherPriority.Normal,
-                            new Action(
-                            delegate()
-                            {
-                                Storyboard sbClockOpen = (Storyboard)FindResource("sbClockOpen");
-                                grdClock.Visibility = System.Windows.Visibility.Visible;
-                                sbClockOpen.Begin();
-                            }
-                        )
-                    );
+                    if (Status != PlayStatus.Playing) {
+                        this.Dispatcher.Invoke((Action<string>)open, fileName);
+                    }
+                    
 
                 }
                 catch (Exception ex)
@@ -508,6 +504,17 @@ namespace WPFMidiBand
         }
         private void open(string filename)
         {
+            this.Dispatcher.Invoke(
+                System.Windows.Threading.DispatcherPriority.Normal,
+                    new Action(
+                    delegate ()
+                    {
+                        Storyboard sbClockOpen = (Storyboard)FindResource("sbClockOpen");
+                        grdClock.Visibility = System.Windows.Visibility.Visible;
+                        sbClockOpen.Begin();
+                    }
+                )
+            );
             try
             {
                 sequencer1.Stop();
@@ -622,6 +629,16 @@ namespace WPFMidiBand
             {
                 Status = PlayStatus.Paused;
             };
+        }
+
+        private void form_loaded(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void sbClockClose_Completed(object sender, EventArgs e)
+        {
+
         }
     }
 
