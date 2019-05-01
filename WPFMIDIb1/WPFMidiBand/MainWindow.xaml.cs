@@ -21,6 +21,7 @@ using System.Windows.Threading;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
+using System.Threading;
 
 namespace WPFMidiBand
 {
@@ -68,27 +69,62 @@ namespace WPFMidiBand
         {
             set
             {
-                BitmapImage bi = new BitmapImage();
-                // BitmapImage.UriSource must be in a BeginInit/EndInit block.
-                bi.BeginInit();
                 if (value == PlayStatus.Paused)
                 {
-                    // Create the image element.
-                    // Create source.
-                    bi.UriSource = new Uri(@"pack://siteoforigin:,,,/Resources/play.png", UriKind.RelativeOrAbsolute);
-                    bi.EndInit();
-                    // Set the image source.
-                    playIcon.Source = bi;
+                    if (Dispatcher.Thread != Thread.CurrentThread)
+                    {
+                        this.playIcon.Dispatcher.Invoke(new Action(() =>
+                        {
+                            BitmapImage bi = new BitmapImage();
+                            // BitmapImage.UriSource must be in a BeginInit/EndInit block.
+                            bi.BeginInit();
+
+                            // Create the image element.
+                            // Create source.
+                            bi.UriSource = new Uri(@"pack://siteoforigin:,,,/Resources/play.png", UriKind.RelativeOrAbsolute);
+                            bi.EndInit();
+
+                            // Set the image source.
+                            playIcon.Source = bi;
+                        }));
+                    }
+                    else
+                    {
+                        BitmapImage bi = new BitmapImage();
+                        // BitmapImage.UriSource must be in a BeginInit/EndInit block.
+                        bi.BeginInit();
+
+                        // Create the image element.
+                        // Create source.
+                        bi.UriSource = new Uri(@"pack://siteoforigin:,,,/Resources/play.png", UriKind.RelativeOrAbsolute);
+                        bi.EndInit();
+
+                        // Set the image source.
+                        playIcon.Source = bi;
+                    }
+
                     this.Stop();
                 }
                 else if (value == PlayStatus.Playing)
                 {
+                    BitmapImage bi = new BitmapImage();
+                    // BitmapImage.UriSource must be in a BeginInit/EndInit block.
+                    bi.BeginInit();
+
                     bi.UriSource = new Uri(@"pack://siteoforigin:,,,/Resources/stop.png", UriKind.RelativeOrAbsolute);
                     bi.EndInit();
                     playIcon.Source = bi;
                     if (Status == PlayStatus.Playing) return;
 
-                    this.Start();
+                    if (slider1.Value > 0)
+                    {
+                        this.Continue();
+                    }
+                    else
+                    {
+                        this.Start();
+                    }
+
                     /*
                     //if (Staus == PlayStatus.Loaded)
                     if (Status == PlayStatus.Playing)
@@ -223,8 +259,11 @@ namespace WPFMidiBand
             );
         }
 
+
         private void HandleLoadCompleted(object sender, AsyncCompletedEventArgs e)
         {
+            if (Status == PlayStatus.Playing) return;
+
             this.Title = string.Format("WPF Midi Band - {0}", new FileInfo(fileName).Name);
             ClearInstruments();
 
@@ -365,6 +404,8 @@ namespace WPFMidiBand
 
         private void HandlePlayingCompleted(object sender, EventArgs e)
         {
+            if (Status == PlayStatus.Paused) return;
+
             var cArray = new string(' ', 88).ToCharArray();
             List<string> noteList = new List<string>();
             List<string> fretList = new List<string>();
@@ -438,6 +479,7 @@ namespace WPFMidiBand
                 case PlayMode.Repeat:
                     break;
             }
+
             this.Dispatcher.Invoke((Action<string>)open, this.playingList[index]);
         }
 
@@ -487,17 +529,9 @@ namespace WPFMidiBand
                     playingList.Add(fileName);
                     updateList(fileName);
                 }
-                try
-                {
-                    if (Status != PlayStatus.Playing) {
-                        this.Dispatcher.Invoke((Action<string>)open, fileName);
-                    }
-                    
 
-                }
-                catch (Exception ex)
-                {
-                    System.Windows.Forms.MessageBox.Show(ex.Message, "Error!", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                if (Status != PlayStatus.Playing) {
+                    this.Dispatcher.Invoke((Action<string>)open, fileName);
                 }
             }
 
@@ -515,10 +549,15 @@ namespace WPFMidiBand
                     }
                 )
             );
+
+            // Stop();
             try
             {
-                sequencer1.Stop();
+                //sequencer1.Stop();
                 playing = false;
+                //Status = PlayStatus.Paused;
+                status = PlayStatus.Paused;
+
                 sequence1.LoadAsync(fileName);
                 this.Cursor = System.Windows.Input.Cursors.Wait;
                 btnOpen.IsEnabled = false;
