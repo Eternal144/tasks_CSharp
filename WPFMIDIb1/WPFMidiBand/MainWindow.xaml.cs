@@ -76,15 +76,9 @@ namespace WPFMidiBand
                         this.playIcon.Dispatcher.Invoke(new Action(() =>
                         {
                             BitmapImage bi = new BitmapImage();
-                            // BitmapImage.UriSource must be in a BeginInit/EndInit block.
                             bi.BeginInit();
-
-                            // Create the image element.
-                            // Create source.
                             bi.UriSource = new Uri(@"pack://siteoforigin:,,,/Resources/play.png", UriKind.RelativeOrAbsolute);
                             bi.EndInit();
-
-                            // Set the image source.
                             playIcon.Source = bi;
                         }));
                     }

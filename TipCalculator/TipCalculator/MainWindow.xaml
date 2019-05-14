@@ -30,6 +30,7 @@
                    FontSize="28" Foreground="#FFB39264">
             Enter the Bill Amount
         </TextBlock>
+        
         <StackPanel Name="myStackPanel" Grid.Row="2" Grid.Column="0"   Margin="20, 0, 20, 0">
             <TextBlock HorizontalAlignment="Left" 
                    TextWrapping="Wrap" 

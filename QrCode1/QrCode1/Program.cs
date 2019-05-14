@@ -119,6 +119,9 @@ namespace QrCodeTest
                 }
                 Console.WriteLine();
             }
+
+
+            
         }
 
         static void Main(string[] args)
