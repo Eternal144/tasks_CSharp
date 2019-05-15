@@ -1,0 +1,42 @@
+﻿<Properties StartupConfiguration="{62E0EE7C-8CF6-4E04-B3A1-49A19DE3FC75}|Default">
+  <MonoDevelop.Ide.Workbench ActiveDocument="SampleWebApiAspNetCore/Controllers/GradesController.cs">
+    <Files>
+      <File FileName="SampleWebApiAspNetCore/Models/Course.cs" Line="1" Column="1" />
+      <File FileName="SampleWebApiAspNetCore/Startup.cs" Line="17" Column="1" />
+      <File FileName="SampleWebApiAspNetCore/Controllers/RecordsController.cs" Line="10" Column="2" />
+      <File FileName="SampleWebApiAspNetCore/Controllers/GradesController.cs" Line="18" Column="10" />
+      <File FileName="SampleWebApiAspNetCore/Repositories/GradeRepository.cs" Line="1" Column="1" />
+      <File FileName="SampleWebApiAspNetCore/Repositories/IGradeRepository.cs" Line="5" Column="15" />
+      <File FileName="SampleWebApiAspNetCore/Controllers/CourseController.cs" Line="1" Column="1" />
+      <File FileName="SampleWebApiAspNetCore/Repositories/RecordsRepository.cs" Line="14" Column="37" NotebookId="1" />
+      <File FileName="SampleWebApiAspNetCore/Repositories/IRecordsRepository.cs" Line="10" Column="37" NotebookId="1" />
+      <File FileName="SampleWebApiAspNetCore/Controllers/ValuesController.cs" Line="22" Column="1" NotebookId="1" />
+    </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State name="__root__">
+          <Node name="myWebApi" expanded="True">
+            <Node name="mywebApi" expanded="True">
+              <Node name="Controllers" expanded="True">
+                <Node name="GradesController.cs" selected="True" />
+              </Node>
+              <Node name="Models" expanded="True" />
+              <Node name="Properties" expanded="True" />
+              <Node name="Repositories" expanded="True" />
+            </Node>
+          </Node>
+        </State>
+      </Pad>
+    </Pads>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.ItemProperties.myWebApi PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.ItemProperties.mywebApi PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore>
+      <Breakpoint file="/Users/sisilee/Projects/c#api/myWebApi/SampleWebApiAspNetCore/Controllers/v1/GradesController.cs" relfile="SampleWebApiAspNetCore/Controllers/v1/GradesController.cs" line="35" column="32" />
+    </BreakpointStore>
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MultiItemStartupConfigurations />
+</Properties>

@@ -1,0 +1,35 @@
+﻿<Properties StartupConfiguration="{D202C07C-74B9-4539-B987-D831096A3625}|Default">
+  <MonoDevelop.Ide.Workbench ActiveDocument="ApiMySQLActor/Startup.cs">
+    <Files>
+      <File FileName="ApiMySQLActor/Properties/launchSettings.json" Line="6" Column="47" />
+      <File FileName="ApiMySQLActor/Startup.cs" Line="18" Column="24" />
+      <File FileName="ApiMySQLActor/Program.cs" Line="23" Column="1" />
+      <File FileName="ApiMySQLActor/Controllers/RecordsController.cs" Line="87" Column="1" />
+      <File FileName="ApiMySQLActor/Controllers/CourseController.cs" Line="31" Column="1" />
+    </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State name="__root__">
+          <Node name="ApiMySQLActor" expanded="True">
+            <Node name="ApiMySQLActor" expanded="True">
+              <Node name="Dependencies" expanded="True">
+                <Node name="SdkDependencies" selected="True" />
+              </Node>
+              <Node name="Controllers" expanded="True" />
+              <Node name="Models" expanded="True" />
+              <Node name="Properties" expanded="True" />
+              <Node name="Repositories" expanded="True" />
+            </Node>
+          </Node>
+        </State>
+      </Pad>
+    </Pads>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.ItemProperties.ApiMySQLActor PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MultiItemStartupConfigurations />
+</Properties>

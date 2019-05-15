@@ -607,6 +607,14 @@ namespace WPFMidiBand
                 System.Windows.Forms.MessageBox.Show(ex.Message, "Error!", MessageBoxButtons.OK, MessageBoxIcon.Stop);
             }
         }
+        private void ListBoxItem_MouseDoubleClick(object sender,RoutedEventArgs e){
+            int clickIndex = this.playList.IndexFromPoint(e.location);
+            if(index == System.Windows.Forms.ListBox.NoMatches){
+                this.index = clickIndex;
+            }
+        }
+
+
         private void switch_mode(object sender, RoutedEventArgs e)
         {
             System.Windows.Controls.RadioButton button = (sender as System.Windows.Controls.RadioButton);
@@ -663,17 +671,8 @@ namespace WPFMidiBand
                 Status = PlayStatus.Paused;
             };
         }
-
-        private void form_loaded(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void sbClockClose_Completed(object sender, EventArgs e)
-        {
-
-        }
     }
+
 
     #region MIDIInstrument
     public enum MIDIInstrument

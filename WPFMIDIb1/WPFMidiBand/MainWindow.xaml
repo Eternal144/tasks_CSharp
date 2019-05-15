@@ -40,10 +40,7 @@
                 </DoubleAnimation.EasingFunction>
             </DoubleAnimation>
         </Storyboard>
-
-
     </Window.Resources>
-
     <Grid Margin="10">
         <Grid.ColumnDefinitions>
             <ColumnDefinition />
@@ -69,6 +66,7 @@
                 <ListBox Background="Transparent" BorderBrush="Transparent" Name="playList" FontSize="10">
                     <ListBox.Resources>
                         <Style TargetType="{x:Type ListBoxItem}">
+                        <EventSetter Event="MouseDoubleClick" Handler="ListBoxItem_MouseDoubleClick"/>
                             <Setter Property="Background" Value="White" />
                             <Setter Property="Margin" Value="1" />
                         </Style>
