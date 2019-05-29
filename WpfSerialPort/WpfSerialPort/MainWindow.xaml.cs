@@ -25,7 +25,8 @@ namespace WpfSerialPort
         private string logStr = "";
         private PointPairList lightList;
         private PointPairList tempList;
-
+        //private Temperature temperData = null;
+        private String fileName = null;
         public MainWindow()
         {
             BSendTemp[0] = 0x96;
@@ -45,6 +46,12 @@ namespace WpfSerialPort
             txtRxDataReal.SetBinding(TextBox.TextProperty, myBinding);
             //showShine.SetBinding(TextBox.TextProperty, myTemperbinding);
             //showTemper.SetBinding(TextBox.TextProperty, myLightBinding);
+
+            //temperData = new Temperature();
+            //Binding bind = new Binding();
+            //bind.Source = 
+
+
 
             comboBoxBaud.Items.Clear();
             comboBoxBaud.Items.Add("9600");
@@ -102,7 +109,6 @@ namespace WpfSerialPort
                     mySerialPort.Close();
                 }
                 mySerialPort = new SerialPort(comboBoxPortName.SelectedItem.ToString());
-                
                 mySerialPort.BaudRate = int.Parse(comboBoxBaud.SelectedItem.ToString());
                 mySerialPort.Parity = Parity.None;
                 mySerialPort.StopBits = StopBits.One;
@@ -111,7 +117,6 @@ namespace WpfSerialPort
                 mySerialPort.RtsEnable = false;
                 mySerialPort.ReceivedBytesThreshold = 1;
                 mySerialPort.DataReceived += new SerialDataReceivedEventHandler(DataReceivedHandler);
-
                 mySerialPort.Open();
                 Console.WriteLine("Open Selected Port:" + comboBoxPortName.SelectedItem);
             }
@@ -133,35 +138,32 @@ namespace WpfSerialPort
             {
                 return;
             }
+            DateTime now = new DateTime();
+            if (dt != null) {
+                TimeSpan span = now.Subtract(dt);
+                if (span.TotalSeconds < 10 && !isLogging) {
+                    return;
+                }
+            }
+
             int numOfByte = mySerialPort.BytesToRead;
             for(int i=0;i< numOfByte;i++)
             {
 
                 int indata = mySerialPort.ReadByte(); 
-
-
-                //Console.Write("\n{0:X2}\n ", indata);
                 if ((indata & 0x80) !=0)
                 {
-         
-                    //Console.Write("\n New Data Frame:");
                     Rxdata.DataIdx = 0;
                     Rxdata.SerialDatas[Rxdata.DataIdx] =(byte) indata;
                     Rxdata.DataIdx++;
                 }else if(Rxdata.DataIdx < Rxdata.SerialDatas.Length)
                 {
-                   //Console.Write("{0:X2} ", indata);
                     Rxdata.SerialDatas[Rxdata.DataIdx] = (byte)indata;
                     Rxdata.DataIdx++;
-                }
-
+  
+              }
                 if (Rxdata.DataIdx >= 3)
                 {
-                    //Output
-                    //Console.Write("\n OneFrame:{0:X2}-{1:X2}-{2:X2}", Rxdata.SerialDatas[0],
-                    //    Rxdata.SerialDatas[1],
-                    //    Rxdata.SerialDatas[2]);
-
                     string msg = string.Format("\n OneFrame:{0:X2}-{1:X2}-{2:X2}, RealData=0x{3:X4}", Rxdata.SerialDatas[0],
                         Rxdata.SerialDatas[1],
                         Rxdata.SerialDatas[2],
@@ -181,7 +183,6 @@ namespace WpfSerialPort
                                 {
                                     int temp = Rxdata.SerialDatas[2];
                                     temp = (temp << 7) + (Rxdata.SerialDatas[1] & 0x7f);
-  
                                     double value = 5 * (temp / 1023.0);
                                     double temper = (5 - value) / value * 10000;
                                     double result = (1.0 / (Math.Log(temper / 10000) / 3435.0 + 1 / 298.15)) - 273.15;
@@ -195,17 +196,21 @@ namespace WpfSerialPort
                                     int light = Rxdata.SerialDatas[2];
                                     light = (light << 7) + (Rxdata.SerialDatas[1] & 0x7f);
                                     PointPair point = new PointPair(t, light);
+                                    //Console.WriteLine("光强来了");
                                     showShine.Text = light.ToString();
                                     lightList.Add(point);
                                 }
 
                                 zedGraphControl1.AxisChange();//画到zedGraphControl1控件中，此句必加
+                                zedGraphControl2.AxisChange();
                                 zedGraphControl1.Refresh();
+                                zedGraphControl2.Refresh();
                             }
                         )
                     );
                     if (isLogging) {
-
+                        // zheli
+                        Thread.Sleep(100);
                         log(msg);
                         byte[] buffer = { 0xa1, 0x1, 0x0 };
                         mySerialPort.Write(buffer, 0, 3);
@@ -215,20 +220,24 @@ namespace WpfSerialPort
             }
         }
         private void initChart() {
-            GraphPane mPane = zedGraphControl1.GraphPane;//获取索引到GraphPane面板上
-
-            mPane.XAxis.Title.Text = "waveLength";//X轴标题
-            mPane.YAxis.Title.Text = "A/D";//Y轴标题
-            mPane.Title.Text = "NIRS";//标题
+            GraphPane mPane1 = zedGraphControl1.GraphPane;//获取索引到GraphPane面板上
+            GraphPane mPane2 = zedGraphControl2.GraphPane;
+            mPane1.XAxis.Title.Text = "waveLength";//X轴标题
+            mPane1.YAxis.Title.Text = "A/D";//Y轴标题
+            mPane1.Title.Text = "change of light";//标题
             //mPane.XAxis.Scale.MaxAuto = true;
-            mPane.XAxis.Type = ZedGraph.AxisType.LinearAsOrdinal;//出现图表右侧出现空白的情况....
+            mPane2.XAxis.Title.Text = "waveLength";
+            mPane2.YAxis.Title.Text = "Temper";
+            mPane1.Title.Text = "change of temperature";//标题
+            mPane1.XAxis.Type = ZedGraph.AxisType.LinearAsOrdinal;//出现图表右侧出现空白的情况....
+            mPane2.XAxis.Type = ZedGraph.AxisType.LinearAsOrdinal;
             lightList = new PointPairList();//数据点
             tempList = new PointPairList();//数据点
-            mPane.XAxis.CrossAuto = true;//容许x轴的自动放大或缩小
-
-            LineItem mLightCure = mPane.AddCurve("光强", lightList, System.Drawing.Color.Blue, SymbolType.None);
-            LineItem mTempCure = mPane.AddCurve("温度", tempList, System.Drawing.Color.Red, SymbolType.None);
+            //mPane1.XAxis.CrossAuto = true;//容许x轴的自动放大或缩小
+            LineItem mLightCure = mPane1.AddCurve("光强", lightList, System.Drawing.Color.Blue, SymbolType.None);
+            LineItem mTempCure = mPane2.AddCurve("温度", tempList, System.Drawing.Color.Red, SymbolType.None);
             zedGraphControl1.AxisChange();//画到zedGraphControl1控件中，此句必加
+            zedGraphControl2.AxisChange();
         }
 
         private delegate void SetTextCallback(TextBox control, string text);
@@ -246,11 +255,6 @@ namespace WpfSerialPort
             }
         }
 
-        private void btnSendData_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
         private void BtnSendData_Click_1(object sender, RoutedEventArgs e)
         {
             int val_red = (int)red_slider.Value;
@@ -261,14 +265,10 @@ namespace WpfSerialPort
                 //+ "绿灯亮度： " + val_green.ToString() + "\n"
                 + "蓝灯亮度： " + val_blue.ToString() + "\n"
                 + "白灯亮度： " + val_white.ToString() + "\n");
-            byte[] redBuffer = { 0xA0, 0x3,(byte)val_red };
-            
+            byte[] redBuffer = { 0xA0, 0x3,(byte)val_red };    
             byte[] blueBuffer = { 0xA0, 0x9, (byte)val_blue };
-
             byte[] whiteBuffer = { 0xA0, 0x6, (byte)val_white };
             mySerialPort.Write(redBuffer, 0, 3);
-            Thread.Sleep(100);
-            //;portWrite(light_green);
             Thread.Sleep(100);
             mySerialPort.Write(blueBuffer, 0, 3);
             Thread.Sleep(100);
@@ -294,12 +294,11 @@ namespace WpfSerialPort
 
                 Console.WriteLine(BSendTemp[i]);
             }
-
             mySerialPort.Write(BSendTemp, 0, 3);
         }
 
         private void Log_start_Click(object sender, RoutedEventArgs e)
-        {
+        {   
             isLogging = true;
             byte[] buffer = { 0xa1, 0x1, 0x0 };
             mySerialPort.Write(buffer, 0, 3);
@@ -307,21 +306,36 @@ namespace WpfSerialPort
         }
 
         private void log(string msg) {
+
             logStr += msg;
         }
 
+
+        DateTime dt;
         private void Log_end_Click(object sender, RoutedEventArgs e)
         {
+            Microsoft.Win32.SaveFileDialog saveFileDialog = new Microsoft.Win32.SaveFileDialog();
+            saveFileDialog.Filter = "txt files(*.txt)|*.txt|xls files(*.xls)|*.xls|All files(*.*)|*.*";
+            dt = DateTime.Now;
+            fileName = string.Format("log-{0:yyyy-MM-dd-HH-mm-ss}.txt", dt);
+            saveFileDialog.FileName = fileName;
+            saveFileDialog.DefaultExt = "txt";
+            saveFileDialog.AddExtension = true;
+            saveFileDialog.RestoreDirectory = true;
+            bool? result = saveFileDialog.ShowDialog();
+            if (result == true)
+            {
+                fileName = saveFileDialog.FileName.ToString();
+                Console.WriteLine(fileName);
+                //获取文件名称
+                string fileNameExt = fileName.Substring(fileName.LastIndexOf("\\") + 1);
+                Console.WriteLine(fileNameExt);
+                File.WriteAllText(fileName, logStr);
+                MessageBox.Show(" 已保存文件：" + fileName);
+            }
             isLogging = false;
-            // save logStr
             byte[] buffer = { 0xa1, 0x2, 0x0 };
             mySerialPort.Write(buffer, 0, 3);
-
-            DateTime dt = DateTime.Now;
-            string filename = string.Format("log-{0:yyyy-MM-dd-HH-mm-ss}.txt", dt);
-            File.WriteAllText(filename, logStr);
-
-            MessageBox.Show(" 已保存文件：" + filename);
             logStr = "";
         }
     }

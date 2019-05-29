@@ -609,7 +609,7 @@ namespace WPFMidiBand
         }
         private void ListBoxItem_MouseDoubleClick(object sender,RoutedEventArgs e){
             int clickIndex = this.playList.IndexFromPoint(e.location);
-            if(index == System.Windows.Forms.ListBox.NoMatches){
+            if(clickIndex != System.Windows.Forms.ListBox.NoMatches){
                 this.index = clickIndex;
             }
         }
